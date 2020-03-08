@@ -7,18 +7,18 @@ services:
     image: ${CONTECO_REGISTRY}${CONTECO_REALM}/${CONTECO_ECOSYSTEM}.nginx.rewrite:1.17.3
     environment: ['CONTECO_NGINX_CONF_LOCATION=/package/ekg/elasticsearch', 'CONTECO_NGINX_CONF_PROXY_PASS=package_ekg_elasticsearch:9200']
     command: []
-    volumes: [${CONTECO_DC_EKG_REST_ELASTICSEARCH_VOLUMES}]
+    volumes: [${EKG_REST_ELASTICSEARCH_VOLUMES}]
     ports: []
     networks: [modeco_overlay, package_overlay]
     deploy:
       mode: replicated
       resources:
         limits:
-          cpus: '${CONTECO_DC_EKG_REST_ELASTICSEARCH_DEPLOY_RESOURCES_LIMITS_CPUS}'
-          memory: '${CONTECO_DC_EKG_REST_ELASTICSEARCH_DEPLOY_RESOURCES_LIMITS_MEMORY}'
+          cpus: '${EKG_REST_ELASTICSEARCH_DEPLOY_RESOURCES_LIMITS_CPUS}'
+          memory: '${EKG_REST_ELASTICSEARCH_DEPLOY_RESOURCES_LIMITS_MEMORY}'
         reservations:
-          cpus: '${CONTECO_DC_EKG_REST_ELASTICSEARCH_DEPLOY_RESOURCES_RESERVATIONS_CPUS}'
-          memory: '${CONTECO_DC_EKG_REST_ELASTICSEARCH_DEPLOY_RESOURCES_RESERVATIONS_MEMORY}'
+          cpus: '${EKG_REST_ELASTICSEARCH_DEPLOY_RESOURCES_RESERVATIONS_CPUS}'
+          memory: '${EKG_REST_ELASTICSEARCH_DEPLOY_RESOURCES_RESERVATIONS_MEMORY}'
       labels: [traefik.enable=true,traefik.docker.network=modeco_overlay, traefik.http.services.package_ekg_elasticsearch.loadbalancer.server.port=80, traefik.http.routers.package_ekg_elasticsearch.entrypoints=conteco, traefik.http.routers.package_ekg_elasticsearch.rule=PathPrefix("/package/ekg/elasticsearch")]
 # END SERVICE nginx.rewrite
 
