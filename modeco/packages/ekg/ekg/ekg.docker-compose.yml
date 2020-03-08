@@ -1,0 +1,67 @@
+---
+version: '3'
+services:
+
+# START SERVICE elasticsearch.base
+  elasticsearch:
+    image: ${CONTECO_REGISTRY}${CONTECO_REALM}/${CONTECO_ECOSYSTEM}.elasticsearch.base:7.1.1
+    environment: ['cluster.name=elasticsearch', 'bootstrap.memory_lock=true', ES_JAVA_OPTS=-Xms${CONTECO_DC_EKG_ELASTICSEARCH_DEPLOY_RESOURCES_RESERVATIONS_MEMORY} -Xmx${CONTECO_DC_EKG_ELASTICSEARCH_DEPLOY_RESOURCES_RESERVATIONS_MEMORY}, 'discovery.type=single-node']
+    command: []
+    volumes: ['package_ekg_elasticsearch_volume:/usr/share/elasticsearch/data']
+    ports: []
+    networks: [package_overlay]
+    deploy:
+      mode: replicated
+      resources:
+        limits:
+          cpus: '${CONTECO_DC_EKG_ELASTICSEARCH_DEPLOY_RESOURCES_LIMITS_CPUS}'
+          memory: '${CONTECO_DC_EKG_ELASTICSEARCH_DEPLOY_RESOURCES_LIMITS_MEMORY}'
+        reservations:
+          cpus: '${CONTECO_DC_EKG_ELASTICSEARCH_DEPLOY_RESOURCES_RESERVATIONS_CPUS}'
+          memory: '${CONTECO_DC_EKG_ELASTICSEARCH_DEPLOY_RESOURCES_RESERVATIONS_MEMORY}'
+      labels: [${CONTECO_DC_EKG_ELASTICSEARCH_DEPLOY_LABELS}]
+# END SERVICE elasticsearch.base
+
+# START SERVICE kibana.base
+  kibana:
+    image: ${CONTECO_REGISTRY}${CONTECO_REALM}/${CONTECO_ECOSYSTEM}.kibana.base:7.1.1
+    environment: ['ELASTICSEARCH_HOSTS=http://elasticsearch:9200', 'SERVER_BASEPATH=/package/ekg/kibana']
+    command: []
+    volumes: []
+    ports: []
+    networks: [package_overlay]
+    deploy:
+      mode: replicated
+      resources:
+        limits:
+          cpus: '${CONTECO_DC_EKG_KIBANA_DEPLOY_RESOURCES_LIMITS_CPUS}'
+          memory: '${CONTECO_DC_EKG_KIBANA_DEPLOY_RESOURCES_LIMITS_MEMORY}'
+        reservations:
+          cpus: '${CONTECO_DC_EKG_KIBANA_DEPLOY_RESOURCES_RESERVATIONS_CPUS}'
+          memory: '${CONTECO_DC_EKG_KIBANA_DEPLOY_RESOURCES_RESERVATIONS_MEMORY}'
+      labels: []
+# END SERVICE kibana.base
+
+# START SERVICE grafana.base
+  grafana:
+    image: ${CONTECO_REGISTRY}${CONTECO_REALM}/${CONTECO_ECOSYSTEM}.grafana.base:6.3.5
+    environment: ['GF_LOG_FORMAT=json', 'GF_LOG_FILE_FORMAT=json', 'GF_LOG_CONSOLE_FORMAT=json', 'GF_LOG_SYSLOG_FORMAT=json', 'GF_LOG_LEVEL=warn', GF_SERVER_ROOT_URL=/package/ekg/grafana]
+    command: []
+    volumes: ['package_ekg_grafana_volume:/var/lib/grafana']
+    ports: []
+    networks: [package_overlay]
+    deploy:
+      mode: replicated
+      resources:
+        limits:
+          cpus: '${CONTECO_DC_EKG_GRAFANA_DEPLOY_RESOURCES_LIMITS_CPUS}'
+          memory: '${CONTECO_DC_EKG_GRAFANA_DEPLOY_RESOURCES_LIMITS_MEMORY}'
+        reservations:
+          cpus: '${CONTECO_DC_EKG_GRAFANA_DEPLOY_RESOURCES_RESERVATIONS_CPUS}'
+          memory: '${CONTECO_DC_EKG_GRAFANA_DEPLOY_RESOURCES_RESERVATIONS_MEMORY}'
+      labels: [${CONTECO_DC_EKG_GRAFANA_DEPLOY_LABELS}]
+# END SERVICE grafana.base
+
+networks: {package_overlay: { external: true }}
+volumes: {package_ekg_elasticsearch_volume: { external: true },package_ekg_grafana_volume: { external: true },}
+

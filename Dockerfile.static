@@ -1,0 +1,33 @@
+##### BEGIN modeco/Dockerfile/image-header #####
+FROM vcwebio/conteco.image.wrapper AS base
+##### END modeco/Dockerfile/image-header #####
+
+##### BEGIN modeco/Dockerfile/conteco #####
+COPY ./modeco/ /modeco/
+RUN rm -rf /conteco/repo
+COPY ./ /conteco/repo/
+##### END modeco/Dockerfile/conteco #####
+
+##### BEGIN image/Dockerfile/build-instructions #####
+##### END image/Dockerfile/build-instructions #####
+
+##### BEGIN modeco/Dockerfile/env-labels-footer #####
+ENV CONTECO_REALM="vcwebio" \
+    CONTECO_ECOSYSTEM="modeco" \
+    CONTECO_TYPE="package" \
+    CONTECO_NAME="ekg" \
+    CONTECO_TAG="v1.0.0" \
+    CONTECO_BASE="image.wrapper" \
+    CONTECO_BUILD="modeco"
+LABEL io.vcweb.schema-version="1.0" \
+      io.vcweb.realm="vcwebio" \
+      io.vcweb.ecosystem="modeco" \
+      io.vcweb.type="package" \
+      io.vcweb.name="ekg" \
+      io.vcweb.tag="v1.0.0" \
+      io.vcweb.base="image.wrapper" \
+      io.vcweb.build="modeco" \
+      io.vcweb.label="package.ekg - ModEco" \
+      io.vcweb.description="The EKG module package." \
+      io.vcweb.docker.cmd.help="docker run vcwebio/modeco.package.ekg --help"
+##### END modeco/Dockerfile/env-labels-footer #####
