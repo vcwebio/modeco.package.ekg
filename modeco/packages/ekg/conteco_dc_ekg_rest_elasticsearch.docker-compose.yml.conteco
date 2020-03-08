@@ -7,7 +7,7 @@ services:
     image: ${CONTECO_REGISTRY}${CONTECO_REALM}/${CONTECO_ECOSYSTEM}.nginx.rewrite:1.17.3
     environment: ['CONTECO_NGINX_CONF_LOCATION=/${CONTECO_URLPREFIX}/elasticsearch', 'CONTECO_NGINX_CONF_PROXY_PASS=${CONTECO_STACKPREFIX}_elasticsearch:9200']
     command: []
-    volumes: [${CONTECO_DC_EKG_REST_ELASTICSEARCH_VOLUMES}]
+    volumes: []
     ports: []
     networks: [${CONTECO_NETWORKGLOBAL}_overlay, ${CONTECO_NETWORKLOCAL}_overlay]
     deploy:

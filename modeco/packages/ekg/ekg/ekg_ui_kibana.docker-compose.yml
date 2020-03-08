@@ -7,7 +7,7 @@ services:
     image: ${CONTECO_REGISTRY}${CONTECO_REALM}/${CONTECO_ECOSYSTEM}.nginx.rewrite:1.17.3
     environment: ['CONTECO_NGINX_CONF_LOCATION=/package/ekg/kibana', 'CONTECO_NGINX_CONF_PROXY_PASS=package_ekg_kibana:5601']
     command: []
-    volumes: [${EKG_UI_KIBANA_VOLUMES}]
+    volumes: []
     ports: []
     networks: [modeco_overlay, package_overlay]
     deploy:
