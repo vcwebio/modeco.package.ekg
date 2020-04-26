@@ -2,6 +2,7 @@
 
 # START CONFIGURATION
 export CONTECO_DC_GLOBAL_PACKAGE_CONTECO="module.ekg"
+export CONTECO_DC_GLOBAL_PACKAGE_TAG="7.1.1"
 export CONTECO_DC_GLOBAL_STACKNAMES="ekg,ekg_rest_elasticsearch,ekg_ui_grafana,ekg_ui_kibana"
 export CONTECO_DC_GLOBAL_BOOTSTACKS="ekg"
 export CONTECO_DC_GLOBAL_RUNSTACKS="ekg_rest_elasticsearch,ekg_ui_grafana,ekg_ui_kibana"

@@ -5,7 +5,7 @@ export CONTECO_DESCRIPTION="The EKG module package."
 
 export CONTECO_TYPE="package"
 export CONTECO_NAME="ekg"
-export CONTECO_TAG="v1.0.0"
+export CONTECO_TAG="7.1.1"
 export CONTECO_TAG_TYPE="incremental"
 
 export CONTECO_BASE="image.wrapper"
