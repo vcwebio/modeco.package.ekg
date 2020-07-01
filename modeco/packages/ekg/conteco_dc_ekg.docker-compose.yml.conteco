@@ -4,7 +4,7 @@ services:
 
 # START SERVICE elasticsearch.base
   elasticsearch:
-    image: ${CONTECO_REGISTRY}${CONTECO_REALM_RUNTIME}/conteco.elasticsearch.base:7.1.1
+    image: ${CONTECO_REGISTRY}${CONTECO_REALM_RUNTIME}/conteco.elasticsearch.base:7.8.0
     environment: ['cluster.name=elasticsearch', 'bootstrap.memory_lock=true', ES_JAVA_OPTS=-Xms${CONTECO_DC_EKG_ELASTICSEARCH_DEPLOY_RESOURCES_RESERVATIONS_MEMORY} -Xmx${CONTECO_DC_EKG_ELASTICSEARCH_DEPLOY_RESOURCES_RESERVATIONS_MEMORY}, 'discovery.type=single-node']
     command: []
     volumes: ['${CONTECO_STACKPREFIX}_elasticsearch_volume:/usr/share/elasticsearch/data']
@@ -12,7 +12,7 @@ services:
     networks: [${CONTECO_NETWORKLOCAL}_overlay]
     deploy:
       mode: replicated
-      replicas: ${CONTECO_DC_EKG_ELASTICSEARCH_DEPLOY_REPLICAS}
+      ${CONTECO_DC_EKG_ELASTICSEARCH_DEPLOY_MODE_REPLICATED_REPLICAS}
       resources:
         limits:
           cpus: '${CONTECO_DC_EKG_ELASTICSEARCH_DEPLOY_RESOURCES_LIMITS_CPUS}'
