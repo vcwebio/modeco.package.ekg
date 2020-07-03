@@ -12,7 +12,7 @@ services:
     networks: [modeco_overlay, package_overlay]
     deploy:
       mode: replicated
-      replicas: ${EKG_REST_ELASTICSEARCH_DEPLOY_REPLICAS}
+      ${EKG_REST_ELASTICSEARCH_DEPLOY_MODE_REPLICATED_REPLICAS}
       resources:
         limits:
           cpus: '${EKG_REST_ELASTICSEARCH_DEPLOY_RESOURCES_LIMITS_CPUS}'
