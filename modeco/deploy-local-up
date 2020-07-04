@@ -3,11 +3,11 @@
 
 prefix="package_$2"
 
-if [[ "package_ekg_elasticsearch_volume" == "$prefix"* ]] ; then
-	executionplane --silent docker volume create package_ekg_elasticsearch_volume
+if [[ "_elasticsearch_volume" == "$prefix"* ]] ; then
+	executionplane --silent docker volume create _elasticsearch_volume
 	fi
 	
-if [[ "package_ekg_grafana_volume" == "$prefix"* ]] ; then
-	executionplane --silent docker volume create package_ekg_grafana_volume
+if [[ "_grafana_volume" == "$prefix"* ]] ; then
+	executionplane --silent docker volume create _grafana_volume
 	fi
 	

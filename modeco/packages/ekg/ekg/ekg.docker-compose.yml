@@ -7,73 +7,56 @@ services:
     image: ${CONTECO_REGISTRY}${CONTECO_REALM_RUNTIME}/conteco.elasticsearch.base:7.8.0
     environment: ['cluster.name=elasticsearch', 'bootstrap.memory_lock=true', ES_JAVA_OPTS=-Xms${EKG_ELASTICSEARCH_DEPLOY_RESOURCES_RESERVATIONS_MEMORY} -Xmx${EKG_ELASTICSEARCH_DEPLOY_RESOURCES_RESERVATIONS_MEMORY}, 'discovery.type=single-node']
     command: []
-    volumes: ['package_ekg_elasticsearch_volume:/usr/share/elasticsearch/data']
+    volumes: ['${CONTECO_STACKPREFIX}_elasticsearch_volume:/usr/share/elasticsearch/data']
     ports: []
-    networks: [package_overlay]
+    networks: [${CONTECO_NETWORKLOCAL}_overlay]
     deploy:
       mode: replicated
-      ${EKG_ELASTICSEARCH_DEPLOY_MODE_REPLICATED_REPLICAS}
       resources:
         limits:
-          cpus: '${EKG_ELASTICSEARCH_DEPLOY_RESOURCES_LIMITS_CPUS}'
           memory: '${EKG_ELASTICSEARCH_DEPLOY_RESOURCES_LIMITS_MEMORY}'
         reservations:
-          cpus: '${EKG_ELASTICSEARCH_DEPLOY_RESOURCES_RESERVATIONS_CPUS}'
           memory: '${EKG_ELASTICSEARCH_DEPLOY_RESOURCES_RESERVATIONS_MEMORY}'
-      placement:
-        constraints: [${EKG_ELASTICSEARCH_DEPLOY_PLACEMENT_CONSTRAINTS}]
-      labels: [${EKG_ELASTICSEARCH_DEPLOY_LABELS}]
-    labels: [${EKG_ELASTICSEARCH_LABELS}]
+${EKG_ELASTICSEARCH_COMPOSE_EXTENSIONS}
 # END SERVICE elasticsearch.base
 
 # START SERVICE kibana.base
   kibana:
     image: ${CONTECO_REGISTRY}${CONTECO_REALM_RUNTIME}/conteco.kibana.base:7.8.0
-    environment: ['ELASTICSEARCH_HOSTS=http://elasticsearch:9200','SERVER_BASEPATH=/package/ekg/kibana']
+    environment: ['ELASTICSEARCH_HOSTS=http://elasticsearch:9200','SERVER_BASEPATH=/${CONTECO_URLPREFIX}/kibana']
     command: []
     volumes: []
     ports: []
-    networks: [package_overlay]
+    networks: [${CONTECO_NETWORKLOCAL}_overlay]
     deploy:
       mode: replicated
-      ${EKG_KIBANA_DEPLOY_MODE_REPLICATED_REPLICAS}
       resources:
         limits:
-          cpus: '${EKG_KIBANA_DEPLOY_RESOURCES_LIMITS_CPUS}'
           memory: '${EKG_KIBANA_DEPLOY_RESOURCES_LIMITS_MEMORY}'
         reservations:
-          cpus: '${EKG_KIBANA_DEPLOY_RESOURCES_RESERVATIONS_CPUS}'
           memory: '${EKG_KIBANA_DEPLOY_RESOURCES_RESERVATIONS_MEMORY}'
-      placement:
-        constraints: [${EKG_KIBANA_DEPLOY_PLACEMENT_CONSTRAINTS}]
-      labels: [${EKG_KIBANA_DEPLOY_LABELS}]
-    labels: [${EKG_KIBANA_LABELS}]
+${EKG_KIBANA_COMPOSE_EXTENSIONS}
 # END SERVICE kibana.base
 
 # START SERVICE grafana.base
   grafana:
     image: ${CONTECO_REGISTRY}${CONTECO_REALM_RUNTIME}/conteco.grafana.base:7.0.5
-    environment: ['GF_LOG_FORMAT=json', 'GF_LOG_FILE_FORMAT=json', 'GF_LOG_CONSOLE_FORMAT=json', 'GF_LOG_SYSLOG_FORMAT=json', 'GF_LOG_LEVEL=warn', 'GF_SERVER_ROOT_URL=/package/ekg/grafana']
+    environment: ['GF_LOG_FORMAT=json', 'GF_LOG_FILE_FORMAT=json', 'GF_LOG_CONSOLE_FORMAT=json', 'GF_LOG_SYSLOG_FORMAT=json', 'GF_LOG_LEVEL=warn', 'GF_SERVER_ROOT_URL=/${CONTECO_URLPREFIX}/grafana']
     command: []
-    volumes: ['package_ekg_grafana_volume:/var/lib/grafana']
+    volumes: ['${CONTECO_STACKPREFIX}_grafana_volume:/var/lib/grafana']
     ports: []
-    networks: [package_overlay]
+    networks: [${CONTECO_NETWORKLOCAL}_overlay]
     deploy:
       mode: replicated
-      ${EKG_GRAFANA_DEPLOY_MODE_REPLICATED_REPLICAS}
       resources:
         limits:
-          cpus: '${EKG_GRAFANA_DEPLOY_RESOURCES_LIMITS_CPUS}'
           memory: '${EKG_GRAFANA_DEPLOY_RESOURCES_LIMITS_MEMORY}'
         reservations:
-          cpus: '${EKG_GRAFANA_DEPLOY_RESOURCES_RESERVATIONS_CPUS}'
           memory: '${EKG_GRAFANA_DEPLOY_RESOURCES_RESERVATIONS_MEMORY}'
-      placement:
-        constraints: [${EKG_GRAFANA_DEPLOY_PLACEMENT_CONSTRAINTS}]
-      labels: [${EKG_GRAFANA_DEPLOY_LABELS}]
-    labels: [${EKG_GRAFANA_LABELS}]
+${EKG_GRAFANA_COMPOSE_EXTENSIONS}
 # END SERVICE grafana.base
 
-networks: {package_overlay: { external: true }}
-volumes: {package_ekg_elasticsearch_volume: { external: true },package_ekg_grafana_volume: { external: true },}
+networks: {${CONTECO_NETWORKLOCAL}_overlay: { external: true }}
+volumes: {${CONTECO_STACKPREFIX}_elasticsearch_volume: { external: true },${CONTECO_STACKPREFIX}_grafana_volume: { external: true },}
+${CONTECO_DC_GLOBAL_COMPOSE_EXTENSIONS}
 
